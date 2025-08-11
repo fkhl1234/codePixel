@@ -1,0 +1,18 @@
+.layout-header {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    background-color: #333333;
+    padding: 20px 30px 20px 30px;
+    box-shadow: 0 6px 6px #111111;
+}
+
+.layout-logo {
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    font-size: 50px;
+    color: blue;
+}

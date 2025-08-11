@@ -1,0 +1,36 @@
+body {
+    background-color: #222222;
+}
+
+.home-logo {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    height: 40vh;  
+    
+    color: blue;
+    font-size: 40px;
+}
+
+.buttonZone {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.Buttons{
+    line-height: 1;
+    width: 40vw;
+    transition: transform 1s ease;
+}
+
+.Buttons:hover {
+    transform: scale(1.1);
+}
+
+.Buttons:focus {
+    transform: scale(1.1);
+}

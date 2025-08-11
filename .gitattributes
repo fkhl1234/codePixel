@@ -1,0 +1,16 @@
+# 모든 텍스트 파일을 자동으로 줄바꿈 처리
+* text=auto
+
+# 자바스크립트, CSS, HTML, JSON 등 텍스트 파일은 LF로 통일
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+
+# 이미지, 바이너리 파일은 줄바꿈 처리 안 함
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.exe binary
