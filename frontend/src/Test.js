@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { withTheme } from "@emotion/react";
 
 import IconButton from "@mui/material/IconButton";
 import PersonIcon from '@mui/icons-material/Person';
@@ -14,7 +13,7 @@ export default function Test ({children}) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("http://localhost:4000/api/test");
+                const res = await fetch("/api/test");
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 
                 const data = await res.json();

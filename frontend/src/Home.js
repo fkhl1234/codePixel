@@ -10,6 +10,7 @@ import DialogContent from "@mui/material/DialogContent";
 import TextField from '@mui/material/TextField';
 
 import CloseIcon from '@mui/icons-material/Close';
+import { useState } from "react";
 
 // interface SimpleDialogProps {
 //     open: Boolean;
@@ -18,7 +19,14 @@ import CloseIcon from '@mui/icons-material/Close';
 
 // function LoginDialog(props: SimpleDialogProps) {
 function LoginDialog(props) {
-    const { open, onClose } = props;
+    const { open, onClose, form, setForm } = props;
+    const changeForm = (key) => (e) => {
+        setForm({
+            ...form,
+            [key]: e.target.value
+        })
+    }
+
     const handleClose = () => {
         onClose();
     }
@@ -60,8 +68,8 @@ function LoginDialog(props) {
                 position: "relative",
                 gap: 2,
             }}>
-                <TextField id='login_id' label='ID' variant="outlined" />
-                <TextField id='login_pw' label='PW' variant="outlined"
+                <TextField id='userId' label='ID' variant="outlined" onChange={changeForm('userId')}/>
+                <TextField id='userPw' label='PW' variant="outlined" onChange={changeForm('userPw')}
                     onKeyDown={(e)=> {
                         if(e.key === 'Enter') {
                             e.preventDefault();  // 기본 동작 막기
@@ -95,12 +103,32 @@ function LoginDialog(props) {
 
 export default function Home() {
     const [open, setOpen] = React.useState(false);
+    const [loginForm, setloginForm] = useState({userId: "", userPw: ""});
     const handleClickOpen = () => {
         setOpen(true);
     };
     const handleClickClose = () => {
         setOpen(false);
+
+        const handleSubmit = async() => {
+            try {
+                const res = await fetch('http://localhost:4000/api/login', {
+                    method: "POST",
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(loginForm)
+                });
+
+                const data = await res.json();
+                console.log(data.message);
+            } catch(err) {
+                console.error(err);
+            }
+        };
+
+        handleSubmit();
     }
+
+
 
     return(
         <div className="Home">
@@ -116,7 +144,9 @@ export default function Home() {
                     </Button>
                     <LoginDialog
                         open={open}
-                        onClose={handleClickClose} />
+                        onClose={handleClickClose}
+                        form={loginForm}
+                        setForm={setloginForm} />
                     <Button variant='contained'component={Link} to='/help' className="Buttons" sx={{fontSize: '30px', fontWeight: 'bold'}}>
                         <span>Help</span>
                     </Button>
