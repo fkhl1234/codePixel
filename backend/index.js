@@ -70,10 +70,10 @@ app.get('/api/test', (req, res) => {
     res.json({message: `백엔드 ${PORT} 포트 연결 완료함!`});
 })
 
-
-// login api
+// 암호화 모듈
 const bcrypt = require('bcrypt');
 
+// 회원가입 모듈
 app.post('/api/register', async (req, res) => {
     const {userPw, userId} = req.body;
     
@@ -81,20 +81,21 @@ app.post('/api/register', async (req, res) => {
         // 비밀번호 해시
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(userPw, saltRounds);
-
+        
         // DB 저장
         const user = await user_auth.create({
             id: userId,
             pw: hashedPassword,
         });
-
-        res.json({ message: '회원가입 성공', userId: user.id }); // 성공 응답
+        
+        res.json({ authenticated: true, userId: user.id }); // 성공 응답
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: '회원가입 실패' }); // 에러 응답
+        res.status(500).json({ authenticated: false }); // 에러 응답
     }
 })
 
+// login api
 app.post('/api/login', async (req, res) => {
     const {userId, userPw} = req.body; 
 
@@ -102,17 +103,17 @@ app.post('/api/login', async (req, res) => {
         // ID 체크
         const user = await user_auth.findOne({ where: { id: userId } });
         if(!user) {
-            return res.status(400).json({message: '사용자 정보를 확인할 수 없습니다.'});
+            return res.status(400).json({ authenticated: false, message: '아이디가 존재하지 않습니다.' });
         }
 
         // 비밀번호 체크
         const match = await bcrypt.compare(userPw, user.pw);
 
         if(match) {
-            res.json({ message: '로그인 성공' });
+            res.json({ authenticated: true, message: '로그인에 성공하였습니다.' });
             console.log('success');
         } else {
-            res.status(400).json({ message: '비밀번호 오류' });
+            res.status(400).json({ authenticated: false, message: '비밀번호가 일치하지 않습니다.' });
         }
     } catch (err) {
         console.error(err);

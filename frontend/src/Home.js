@@ -1,5 +1,5 @@
-import React from "react";
-import {Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import './Home.css';
 
@@ -8,129 +8,123 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from "@mui/material/DialogContent";
 import TextField from '@mui/material/TextField';
-
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from "react";
 
-// interface SimpleDialogProps {
-//     open: Boolean;
-//     onClose: ()=> void;
-// };
+// Login Dialog 창
+function LoginDialog({ open, handleClose, handleLogin, form, setForm }) {
 
-// function LoginDialog(props: SimpleDialogProps) {
-function LoginDialog(props) {
-    const { open, onClose, form, setForm } = props;
+    // form key:value 변경 (함수형 업데이트)
     const changeForm = (key) => (e) => {
-        setForm({
-            ...form,
+        setForm(prevForm => ({
+            ...prevForm,
             [key]: e.target.value
-        })
+        }));
     }
 
-    const handleClose = () => {
-        onClose();
-    }
-    
-    return(
+    return (
         <Dialog 
+            open={open}  
             onClose={handleClose}
-            open={open}
             PaperProps={{
-                sx: {
-                    width: 500,
-                }
-            }}>
-            <DialogTitle 
-                sx={{
-                    position: 'relative',
-                    fontSize: '30px',
-                }} >
+                sx: { width: 500 }
+            }}
+        >
+            <DialogTitle sx={{ position: 'relative', fontSize: '30px' }}>
                 Login
                 <CloseIcon
-                    variant="outlined" 
                     onClick={handleClose}
                     sx={{
-                      position: 'absolute',
-                      right: 16,  
-                      '&:hover': {
+                        position: 'absolute',
+                        right: 16,
+                        cursor: 'pointer',
+                        '&:hover': {
                             scale: 1.2,
                             backgroundColor: 'lightgray',
                         }
-                    }} />
-
+                    }}
+                />
             </DialogTitle>
+
             <DialogContent sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                paddingTop: '16px !important',
-                paddingRight: 2,
-                paddingLeft: 2,
-                position: "relative",
                 gap: 2,
+                pt: 2,
+                px: 2,
             }}>
-                <TextField id='userId' label='ID' variant="outlined" onChange={changeForm('userId')}/>
-                <TextField id='userPw' label='PW' variant="outlined" onChange={changeForm('userPw')}
-                    onKeyDown={(e)=> {
+                <TextField 
+                    id='userId' 
+                    label='ID' 
+                    variant="outlined" 
+                    onChange={changeForm('userId')} 
+                />
+                <TextField 
+                    id='userPw' 
+                    label='PW' 
+                    variant="outlined" 
+                    type="password"
+                    onChange={changeForm('userPw')}
+                    onKeyDown={(e) => {
                         if(e.key === 'Enter') {
-                            e.preventDefault();  // 기본 동작 막기
-                            handleClose();
+                            e.preventDefault();
+                            handleLogin();
                         }
-                    }}/>
+                    }}
+                />
                 <Button 
                     variant="contained"
-                    onClick={handleClose}
-                    sx={{
-                        fontSize: '20px'
-                    }}>
-                        Login
+                    onClick={handleLogin}
+                    sx={{ fontSize: '20px' }}
+                >
+                    Login
                 </Button>
-
-                <Button variant="outlined"
+                <Button 
+                    variant="outlined"
                     component={Link}
                     to='/menu'
-                    sx={{
-                        width: 'fit-content',
-                        alignSelf: 'flex-end',
-                        fontSize: 17,
-                    }}>
+                    sx={{ width: 'fit-content', alignSelf: 'flex-end', fontSize: 17 }}
+                >
                     Guest
                 </Button>
             </DialogContent>
-
         </Dialog>
     )
 }
 
 export default function Home() {
-    const [open, setOpen] = React.useState(false);
-    const [loginForm, setloginForm] = useState({userId: "", userPw: ""});
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClickClose = () => {
-        setOpen(false);
+    const [open, setOpen] = useState(false);                 // Dialog 상태
+    const [loginForm, setLoginForm] = useState({            // 로그인 form
+        userId: "", 
+        userPw: ""
+    });
 
-        const handleSubmit = async() => {
-            try {
-                const res = await fetch('http://localhost:4000/api/login', {
-                    method: "POST",
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(loginForm)
-                });
+    // Dialog 열기/닫기
+    const handleClickOpen = () => setOpen(true);
+    const handleClickClose = () => setOpen(false);
 
-                const data = await res.json();
+    // 로그인 요청
+    const handleLogin = async () => {
+        try {
+            const res = await fetch('http://localhost:4000/api/login', {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(loginForm)
+            });
+            const data = await res.json();
+
+            if(data.authenticated) {
                 console.log(data.message);
-            } catch(err) {
-                console.error(err);
+                window.location.href = '/menu';       // 다음 페이지 이동
+            } else {
+                alert(data.message);                 // 실패 시 alert
             }
-        };
-
-        handleSubmit();
+        } catch(err) {
+            console.error(err);
+            alert("서버 오류가 발생했습니다.");
+        }
     }
 
-
-
-    return(
+    return (
         <div className="Home">
             <header>
                 <div className="home-logo">
@@ -139,19 +133,34 @@ export default function Home() {
             </header>
             <main>
                 <div className="buttonZone">
-                    <Button variant='contained' className="Buttons" sx={{fontSize: '30px', fontWeight: 'bold'}} onClick={handleClickOpen}>
-                        <span>Login</span>
+                    <Button 
+                        variant='contained' 
+                        className="Buttons" 
+                        sx={{ fontSize: '30px', fontWeight: 'bold' }}
+                        onClick={handleClickOpen}
+                    >
+                        Login
                     </Button>
+
                     <LoginDialog
                         open={open}
-                        onClose={handleClickClose}
+                        handleClose={handleClickClose}
+                        handleLogin={handleLogin}
                         form={loginForm}
-                        setForm={setloginForm} />
-                    <Button variant='contained'component={Link} to='/help' className="Buttons" sx={{fontSize: '30px', fontWeight: 'bold'}}>
-                        <span>Help</span>
+                        setForm={setLoginForm}
+                    />
+
+                    <Button 
+                        variant='contained'
+                        component={Link} 
+                        to='/help' 
+                        className="Buttons" 
+                        sx={{ fontSize: '30px', fontWeight: 'bold' }}
+                    >
+                        Help
                     </Button>
                 </div>
             </main>
         </div>
-    );
+    )
 }
