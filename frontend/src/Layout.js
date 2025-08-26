@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { withTheme } from "@emotion/react";
+// import { withTheme } from "@emotion/react";
 
 import IconButton from "@mui/material/IconButton";
 import PersonIcon from '@mui/icons-material/Person';
@@ -28,7 +28,7 @@ export default function Layout ({children}) {
             </header>
             <nav>
             </nav>
-            <main>
+            <main className="layout-children">
                 {children}
             </main>
         </div>

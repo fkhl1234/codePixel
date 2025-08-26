@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import Home from './Home';
 import Menu from './Menu';
 import Test from './Test';
+import Challenge from './Challenge';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,6 +16,7 @@ root.render(
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/challenge" element={<Challenge />} />
         <Route path='/dev' element={<Test />} />
       </Routes>
     </BrowserRouter>
