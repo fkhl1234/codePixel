@@ -1,29 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Layout from './Layout';
 
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript"; // 문법 하이라이트
 
-import { styled } from '@mui/material/styles';
 import Button from "@mui/material/Button";
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#fff',
-  ...theme.typography.body2,
-  // padding: theme.spacing(1),
-  height: 'auto',
-  borderRadius: '4px',
-  textAlign: 'center',
-  textJustify: 'center',
-  color: (theme.vars ?? theme).palette.text.secondary,
-  ...theme.applyStyles('dark', {
-    backgroundColor: '#1A2027',
-  }),
-}));
 
 function updateArray(row, col, exp) {
   const newArray = Array(row * col).fill(0);
@@ -116,7 +100,6 @@ function updateArray(row, col, exp) {
   return newArray;
 }
 
-
 export default function Freemode() {
   const [code, setCode] = useState("array[10][10] = (0, 0, 0);");
   const [arrayInfo, setArrayInfo] = useState({row: 10, col: 10});
@@ -124,9 +107,25 @@ export default function Freemode() {
     Array(100).fill('rgb(0,0,0)')
   );
 
-  // useEffect(() => {
-  //   console.log(array);
-  // }, [array])
+  // canvas 설정
+  const canvasRef = useRef(null);
+  const pixelFixed = 600; // 캔버스 크기 고정
+
+  useEffect(() => {
+    const canvas = canvasRef.current; // DOM 참조
+    const ctx = canvas.getContext('2d'); // 그림 그릴 객체
+    const pixelSize = pixelFixed / arrayInfo.col; // 픽셀 하나당 크기
+
+    for (let y = 0; y < arrayInfo.row; y++) {
+      for (let x = 0; x < arrayInfo.col; x++) {
+        ctx.fillStyle = array[y * arrayInfo.col + x]; // 내부 색상 지정
+        ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize); // 픽셀 내부 그리기
+        
+        ctx.strokeStyle = '#222222'; // 외부 색상 지정
+        ctx.strokeRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize); // 픽셀 외부 그리기
+      }
+    }
+  }, [array, arrayInfo])
 
   const handleSubmit = () => {
     try{
@@ -253,14 +252,12 @@ export default function Freemode() {
                   />
                 </Grid>
                 <Grid size={6}>
-                  <Item>
-                    <Grid container spacing={2/arrayInfo.col} sx={{padding: '2px'}}>
-                      {array.map((element, index) => (
-                        <Grid size={12/arrayInfo.col} sx={{borderRadius: '6px', aspectRatio: '1/1', backgroundColor: element}}>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </Item>
+                  {/* 기존의 gird 대신 canvas 활용 */}
+                  <canvas
+                    ref={canvasRef}
+                    width={pixelFixed}
+                    height={pixelFixed}
+                    style={{border: '1px solid black'}} /> 
                 </Grid>
                 <Grid size={6}>
                   <Button variant="contained" onClick={handleSubmit}>
