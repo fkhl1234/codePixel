@@ -12,7 +12,6 @@ import CloseIcon from '@mui/icons-material/Close';
 
 // Login Dialog 창
 function LoginDialog({ open, handleClose, handleLogin, form, setForm }) {
-
     // form key:value 변경 (함수형 업데이트)
     const changeForm = (key) => (e) => {
         setForm(prevForm => ({

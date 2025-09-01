@@ -4,11 +4,14 @@ import Layout from './Layout';
 
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript"; // 문법 하이라이트
+import { Slider, Saturation, Hue, EditableInputRGBA, hsvaToRgbString } from '@uiw/react-color';
 
 import Button from "@mui/material/Button";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Popover from "@mui/material/Popover";
 
+// 표현식 분석 -> 조건 배열 반환
 function updateArray(row, col, exp) {
   const newArray = Array(row * col).fill(0);
 
@@ -101,16 +104,20 @@ function updateArray(row, col, exp) {
 }
 
 export default function Freemode() {
-  const [code, setCode] = useState("array[10][10] = (0, 0, 0);");
-  const [arrayInfo, setArrayInfo] = useState({row: 10, col: 10});
+  const [code, setCode] = useState("array[10][10] = (0, 0, 0);"); // 입력 코드
+  const editorRef = useRef(null); // 코드 창 Ref
+  const [arrayInfo, setArrayInfo] = useState({row: 10, col: 10}); // 조작할 배열 정보(행 x 열)
   const [array, setArray] = useState(
     Array(100).fill('rgb(0,0,0)')
-  );
+  ); // 실제 조작할 배열: 색상값을 가짐
+  const [hsvaColor, setHsvaColor] = useState({ h: 0, s: 0, v: 68, a: 1 }); // React-Color에서 사용할 색상
+  const [colorOpen, setColorOpen] = useState(null); // 색상 피커 Popover이 붙을 객체
 
   // canvas 설정
   const canvasRef = useRef(null);
   const pixelFixed = 600; // 캔버스 크기 고정
 
+  // 배열 변경시 렌더링
   useEffect(() => {
     const canvas = canvasRef.current; // DOM 참조
     const ctx = canvas.getContext('2d'); // 그림 그릴 객체
@@ -127,6 +134,7 @@ export default function Freemode() {
     }
   }, [array, arrayInfo])
 
+  // submit 버튼 시 코드 분석 및 배열 반영
   const handleSubmit = () => {
     try{
       // 배열 정의부
@@ -248,6 +256,7 @@ export default function Freemode() {
                     onChange={(value) => {
                       setCode(value);
                     }}
+                    ref={editorRef}
                     theme="dark" // light 또는 dark 테마
                   />
                 </Grid>
@@ -260,12 +269,65 @@ export default function Freemode() {
                     style={{border: '1px solid black'}} /> 
                 </Grid>
                 <Grid size={6}>
-                  <Button variant="contained" onClick={handleSubmit}>
+                  <Button variant="contained" onClick={() => {handleSubmit();}}>
                     submit
                   </Button>
                 </Grid>
             </Grid>
         </Box>
+        <Button aria-describedby={'colorPicker'}variant='contained' onClick={(event) => {setColorOpen(event.currentTarget)}}> color </Button>
+        <Popover
+          id={'colorPicker'}
+          open={Boolean(colorOpen)}
+          anchorEl={colorOpen}
+          onClose={() => {setColorOpen(null)}}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          sx={{
+            display: 'flex'
+          }} >
+            {/* 색상판 */}
+            <Saturation
+              hsva={hsvaColor}
+              onChange={(newColor) => {
+                setHsvaColor({ ...hsvaColor, ...newColor, a: hsvaColor.a });
+              }} /> 
+              <Hue
+                hue={hsvaColor.h}
+                onChange={(newHue) => {
+                  setHsvaColor({ ...hsvaColor, ...newHue });
+                }}
+              />
+            <EditableInputRGBA
+              hsva={hsvaColor}
+              onChange={(color) => {
+                setHsvaColor({ ...hsvaColor, ...color.hsva }); 
+              }} 
+              aProps={false} />
+            <Slider
+              color={hsvaColor}
+              onChange={(color) => {
+                setHsvaColor({ ...hsvaColor, ...color.hsv });
+              }}
+            />
+            <Button variant="contained" onClick={() => {
+              const insertRGB = hsvaToRgbString(hsvaColor).replace('rgb',''); // rgb 튜플 추출
+              
+              const view = editorRef.current?.view; // ref 활용해서 editor 참조
+              if (!view) return;
+
+              const { from, to } = view.state.selection.main; // 커서 위치 가져오기
+              view.dispatch({
+                changes: { from, to: to, insert: 'return '+insertRGB+';' } // 선택 영역을 대체하지 않고 삽입
+              });
+
+              setColorOpen(false);
+              view.focus();
+              
+            }}>Insert</Button>
+          </Popover>
     </Layout>
   );
 }
