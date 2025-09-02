@@ -8,6 +8,7 @@ import Home from './Home';
 import Menu from './Menu';
 import Test from './Test';
 import Freemode from './Freemode';
+import Main from './Main';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,6 +16,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/main' element={<Main/>} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/freemode" element={<Freemode />} />
         <Route path='/dev' element={<Test />} />

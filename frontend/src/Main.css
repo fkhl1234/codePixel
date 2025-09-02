@@ -1,0 +1,70 @@
+/* 최상위 영역 */
+.main {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr;
+  gap: 20px; /* 카드 사이 간격 */
+  width: 100vw;
+  height: 100vh;
+  padding: 2%;
+  box-sizing: border-box;
+}
+
+/* 그룹 공통 */
+.group {
+  display: flex;
+  background-color: #006aff;
+  flex-direction: column; /* 박스 아래 텍스트 */
+  align-items: center;    /* 텍스트 중앙 정렬 */
+}
+
+/* 공통 박스 */
+.rectangle {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 2vw;
+    width: 100%;
+    max-width:850px;
+    background-color: #4c6280;
+    position: relative;
+}
+
+/* 텍스트 공통 */
+.text {
+    font-family: 'Notable', 'Noto Sans KR', sans-serif;
+    color: #ffffff;
+}
+
+/* User Console */
+.user-console {
+    grid-row: span 2; 
+    display: flex;
+    justify-content: center;
+}
+
+.title {
+    background-color: #ffffff;
+}
+.console {
+  background-color: #006aff;
+}
+.console-line {
+  width: 90%;
+  border: 1px solid #244aa3;
+  margin-top: 5px;
+}
+
+/* Challenge */
+.challenge {
+    grid-column: span 2;
+}
+
+/* Casual */
+.casual {
+    width: 1fr;
+}
+
+/* Setting */
+.setting {
+    width: 1fr;
+}
