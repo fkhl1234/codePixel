@@ -9,6 +9,7 @@ import Menu from './Menu';
 import Test from './Test';
 import Freemode from './Freemode';
 import Main from './Main';
+import Casual from './Casual';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,6 +19,7 @@ root.render(
         <Route path='/' element={<Home />} />
         <Route path='/main' element={<Main/>} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/casual" element={<Casual />} />
         <Route path="/freemode" element={<Freemode />} />
         <Route path='/dev' element={<Test />} />
       </Routes>

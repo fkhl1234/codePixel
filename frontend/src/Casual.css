@@ -1,0 +1,105 @@
+.flex-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.casual {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 20px; 
+    width: 100vw;
+    max-width: 1440px;
+    height: 100vh;
+    max-height: 900px;
+    padding: 3vw;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+.casual-codeConsole {
+    background-color: #006aff;
+    gap: 2%;
+}
+
+.casual-buttonSet {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+
+.casual-colorButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-color: #DCE651;
+}
+
+.casual-colorButton:hover {
+    transform: scale(1.2);
+}
+
+.casual-colorLine {
+    width: 80%;
+    height: 0;
+    border: 2px solid #B4871E;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.casual-submitButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-color: #62CE6F;
+}
+
+.casual-submitButton:hover {
+    transform: scale(1.2);
+}
+
+.casual-submitLine {
+    width: 80%;
+    height: 0;
+    border: 2px solid #519439;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.casual-display {
+    background-color: #4D6381;
+}
+
+.casual-codeArea {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+    border-radius: 2vh;
+    flex-grow: 1;
+    background-color: #343941;
+}
+
+.casual-codeMirror {
+    width: 100%;
+    height: 100%;
+}
+
+.cm-editor {
+    flex-grow: 1;
+    max-width: 100% !important;
+    height: 100%;
+    background-color: #343941;
+}

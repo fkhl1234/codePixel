@@ -6,6 +6,10 @@ button {
   all: unset; 
 }
 
+Link {
+  all: unset;
+}
+
 /* 최상위 영역 */
 .main {
   display: grid;
@@ -30,19 +34,12 @@ button {
   width: 100%;
   position: relative;
 }
-.main-rectangle:hover {
-  transform: scale(1.05);
-}
-.main-rectangle:focus {
-  transform: scale(1.05);
-}
 
 /* 텍스트 공통 */
 .main-text {
     font-family: 'Notable', 'Noto Sans KR', sans-serif;
     color: #ffffff;
 }
-
 
 /* User Console */
 .main-userConsole {
