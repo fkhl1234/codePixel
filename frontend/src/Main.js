@@ -9,7 +9,7 @@ export default function Main() {
       {/* User Console */}
       <div className="user-console">
         <div className="console rectangle" >
-          <p className="text text-1">codePixel</p>
+          <p className="text title">codePixel</p>
           <div className="console-line" />
           <div className="monitor-container">
             <div className="monitor rectangle" />
