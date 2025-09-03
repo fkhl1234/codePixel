@@ -78,6 +78,12 @@ app.post('/api/register', async (req, res) => {
     const {userPw, userId} = req.body;
     
     try {
+        // 아이디 중복
+        const isDuplicated = await user_auth.findOne({ where: {id: userId}});
+        if(isDuplicated) {
+            return res.status(400).json({ authenticated: false, message: "아이디가 중복되었습니다."});
+        }
+
         // 비밀번호 해시
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(userPw, saltRounds);
@@ -89,7 +95,7 @@ app.post('/api/register', async (req, res) => {
         });
         
         res.json({ authenticated: true, userId: user.id }); // 성공 응답
-    } catch (err) {
+    } catch(err) {
         console.error(err);
         res.status(500).json({ authenticated: false }); // 에러 응답
     }

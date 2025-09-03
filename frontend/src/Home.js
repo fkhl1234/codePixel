@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 
 // Login Dialog 창
-function LoginDialog({ open, handleClose, handleLogin, form, setForm }) {
+function LoginDialog({ open, handleClose, handleLogin, setForm, handleRegister }) {
     // form key:value 변경 (함수형 업데이트)
     const changeForm = (key) => (e) => {
         setForm(prevForm => ({
@@ -79,11 +79,10 @@ function LoginDialog({ open, handleClose, handleLogin, form, setForm }) {
                 </Button>
                 <Button 
                     variant="outlined"
-                    component={Link}
-                    to='/menu'
+                    onClick={handleRegister}
                     sx={{ width: 'fit-content', alignSelf: 'flex-end', fontSize: 17 }}
                 >
-                    Guest
+                    Register
                 </Button>
             </DialogContent>
         </Dialog>
@@ -104,7 +103,7 @@ export default function Home() {
     // 로그인 요청
     const handleLogin = async () => {
         try {
-            const res = await fetch('http://localhost:4000/api/login', {
+            const res = await fetch('/api/login', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(loginForm)
@@ -120,6 +119,27 @@ export default function Home() {
         } catch(err) {
             console.error(err);
             alert("서버 오류가 발생했습니다.");
+        }
+    }
+
+    const handleRegister = async() => {
+        try {
+            // 요청 보내기
+            const res = await fetch('/api/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(loginForm)
+            });
+            const data = await res.json();
+
+            if(data.authenticated) {
+                alert(`${data.userId} 회원 가입이 완료되었습니다.`);
+            } else {
+                alert(`회원가입 실패 : ${data.message}`);
+            }
+        } catch(err) {
+            console.error(err);
+            alert('서버 오류가 발상했습니다.');
         }
     }
 
@@ -147,6 +167,7 @@ export default function Home() {
                         handleLogin={handleLogin}
                         form={loginForm}
                         setForm={setLoginForm}
+                        handleRegister={handleRegister}
                     />
 
                     <Button 
