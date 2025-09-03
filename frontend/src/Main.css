@@ -1,70 +1,115 @@
+p {
+  margin: 0;
+}
+
+button {
+  all: unset; 
+}
+
 /* 최상위 영역 */
 .main {
   display: grid;
   grid-template-columns: 2fr 2fr 1fr;
-  gap: 20px; /* 카드 사이 간격 */
+  gap: 20px; 
   width: 100vw;
+  max-width: 1440px;
   height: 100vh;
-  padding: 2%;
+  max-height: 900px;
+  padding: 3vw;
   box-sizing: border-box;
-}
-
-/* 그룹 공통 */
-.group {
-  display: flex;
-  background-color: #006aff;
-  flex-direction: column; /* 박스 아래 텍스트 */
-  align-items: center;    /* 텍스트 중앙 정렬 */
+  justify-content: center;
 }
 
 /* 공통 박스 */
-.rectangle {
-    display: flex;
-    flex-direction: column;
-    border-radius: 20px;
-    padding: 2vw;
-    width: 100%;
-    max-width:850px;
-    background-color: #4c6280;
-    position: relative;
+.main-rectangle {
+  display: flex;
+  flex-direction: column;
+  border-radius: 3vh;
+  padding: 3vh;
+  box-sizing: border-box;
+  width: 100%;
+  position: relative;
+}
+.main-rectangle:hover {
+  transform: scale(1.05);
+}
+.main-rectangle:focus {
+  transform: scale(1.05);
 }
 
 /* 텍스트 공통 */
-.text {
+.main-text {
     font-family: 'Notable', 'Noto Sans KR', sans-serif;
     color: #ffffff;
 }
 
+
 /* User Console */
-.user-console {
-    grid-row: span 2; 
-    display: flex;
-    justify-content: center;
+.main-userConsole {
+  grid-row: span 2; 
+  display: flex;
+  gap: 2%;
+  overflow: hidden;
+  background-color: #006aff;
+  position: relative;
 }
 
-.title {
-    background-color: #ffffff;
+.main-title {
+  font-size: 1.5rem;
 }
-.console {
+
+.main-console {
   background-color: #006aff;
 }
-.console-line {
-  width: 90%;
-  border: 1px solid #244aa3;
-  margin-top: 5px;
+
+.main-consoleLine {
+  width: 100%;
+  border: 2px solid #244aa3;
+  box-sizing: border-box;
+}
+
+.main-monitorContainer {
+  align-items: flex-end;
+  justify-content: flex-end;
+  background-color: #343941;
+  border: 5px solid #244aa3;
+  width: 100%;
+  height: 40%;
+  box-sizing: border-box;
+  padding: 2vh !important;
+}
+
+.main-userName {
+  font-size: 1.2rem;
+}
+
+/* 메뉴 기본 텍스트 크기 */
+.main-menu {
+  font-size: 2rem;
 }
 
 /* Challenge */
-.challenge {
-    grid-column: span 2;
+.main-challenge {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  grid-column: span 2;
+  background-color: #4D6381;
 }
 
+
 /* Casual */
-.casual {
-    width: 1fr;
+.main-casual {
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 1fr;
+  background-color: #4D6381;
 }
 
 /* Setting */
-.setting {
-    width: 1fr;
+.main-setting {
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 1fr;
+  background-color: #4D6381;
 }

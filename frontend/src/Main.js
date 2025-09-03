@@ -7,34 +7,28 @@ export default function Main() {
     return (
     <div className="main">
       {/* User Console */}
-      <div className="user-console">
-        <div className="console rectangle" >
-          <p className="text text-1">codePixel</p>
-          <div className="console-line" />
-          <div className="monitor-container">
-            <div className="monitor rectangle" />
-            <p className="text text-2">UserName</p>
-          </div>
+      <button className="main-userConsole main-rectangle">
+        <p className="main-text main-title">codePixel</p>
+        <div className="main-consoleLine" />
+        <div className="main-monitorContainer main-rectangle">
+          <p className="main-text main-userName">UserName</p>
         </div>
-      </div>
+      </button>
 
       {/* Challenge */}
-      <div className="group challenge">
-        <div className="rectangle challenge-box" />
-        <p className="text text-3">challenge</p>
-      </div>
+      <button className="main-challenge main-rectangle">
+        <p className="main-text main-menu">challenge</p>
+      </button>
 
       {/* Casual */}
-      <div className="group casual">
-        <div className="rectangle casual-box" />
-        <p className="text text-4">casual</p>
-      </div>
+      <button className="main-casual main-rectangle">
+        <p className="main-text main-menu">casual</p>
+      </button>
 
       {/* Setting */}
-      <div className="group setting">
-        <div className="rectangle setting-box" />
-        <p className="text text-5">Setting</p>
-      </div>
+      <button className="main-setting main-rectangle">
+        <p className="main-text main-menu">Setting</p>
+      </button>
     </div>
   );
 }
