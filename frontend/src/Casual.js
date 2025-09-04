@@ -255,6 +255,7 @@ export default function Casual() {
                         <button className='casual-colorButton' onClick={(event) => {setColorOpen(event.currentTarget)}}>
                             <div className='casual-colorLine' />
                         </button>
+                        {/* 색상판 팝오버 */}
                         <Popover
                             id={'colorPicker'}
                             open={Boolean(colorOpen)}
@@ -264,48 +265,60 @@ export default function Casual() {
                                 vertical: 'bottom',
                                 horizontal: 'left',
                             }}
-                            sx={{
-                                display: 'flex'
-                            }} >
+                            PaperProps={{
+                              sx:{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                backgroundColor: '#006aff',
+                                width: '20vh',
+                                justifyContent: "center",
+                                alignItems: 'center',
+                                padding: '1vh',
+                                gap: '1vh',
+                              }
+                            }}>
                                 {/* 색상판 */}
-                                <Saturation
-                                hsva={hsvaColor}
-                                onChange={(newColor) => {
+                                <Saturation className="casual-colorSat"
+                                  hsva={hsvaColor}
+                                  onChange={(newColor) => {
                                     setHsvaColor({ ...hsvaColor, ...newColor, a: hsvaColor.a });
-                                }} /> 
-                                <Hue
+                                  }} /> 
+                                  <Hue className="casual-colorHue"
                                     hue={hsvaColor.h}
                                     onChange={(newHue) => {
                                     setHsvaColor({ ...hsvaColor, ...newHue });
                                     }}
                                 />
-                                <EditableInputRGBA
-                                hsva={hsvaColor}
-                                onChange={(color) => {
-                                    setHsvaColor({ ...hsvaColor, ...color.hsva }); 
-                                }} 
-                                aProps={false} />
-                                <Slider
-                                color={hsvaColor}
-                                onChange={(color) => {
-                                    setHsvaColor({ ...hsvaColor, ...color.hsv });
-                                }}
-                                />
-                                <Button variant="contained" onClick={() => {
-                                const insertRGB = hsvaToRgbString(hsvaColor).replace('rgb',''); // rgb 튜플 추출
-                                
-                                const view = editorRef.current?.view; // ref 활용해서 editor 참조
-                                if (!view) return;
+                                <Slider className="casual-colorHue"
+                                  color={hsvaColor}
+                                  onChange={(color) => {
+                                      setHsvaColor({ ...hsvaColor, ...color.hsv });
+                                  }} />
+                                <EditableInputRGBA className="casual-colorRGB"
+                                  hsva={hsvaColor}
+                                  onChange={(color) => {
+                                      setHsvaColor({ ...hsvaColor, ...color.hsva }); 
+                                  }} 
+                                  aProps={false} />
+                                <Button variant="contained" 
+                                  sx={{
+                                    width: '100%',
+                                  }}
+                                  onClick={() => {
+                                    const insertRGB = hsvaToRgbString(hsvaColor).replace('rgb',''); // rgb 튜플 추출
+                                    
+                                    const view = editorRef.current?.view; // ref 활용해서 editor 참조
+                                    if (!view) return;
 
-                                const { from, to } = view.state.selection.main; // 커서 위치 가져오기
-                                view.dispatch({
-                                    changes: { from, to: to, insert: 'return '+insertRGB+';' } // 선택 영역을 대체하지 않고 삽입
-                                });
+                                    const { from, to } = view.state.selection.main; // 커서 위치 가져오기
+                                    view.dispatch({
+                                        changes: { from, to: to, insert: 'return '+insertRGB+';' } // 선택 영역을 대체하지 않고 삽입
+                                  });
 
-                                setColorOpen(false);
-                                view.focus();
-                                
-                                }}>Insert</Button>
+                                  setColorOpen(false);
+                                  view.focus();
+                                  
+                                  }}>Insert</Button>
                             </Popover>
                         <button className='casual-submitButton' onClick={() => {handleSubmit();}}>
                             <div className='casual-submitLine' />

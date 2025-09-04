@@ -21,9 +21,9 @@ export default function Main() {
       </button>
 
       {/* Casual */}
-      <button className="main-casual main-rectangle">
+      <Link to='/casual'  className="main-casual main-rectangle">
         <p className="main-text main-menu">casual</p>
-      </button>
+      </Link>
 
       {/* Setting */}
       <button className="main-setting main-rectangle">

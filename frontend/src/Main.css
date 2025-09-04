@@ -51,6 +51,10 @@ Link {
   position: relative;
 }
 
+.main-userConsole:hover {
+  transform: scale(1.05);  
+}
+
 .main-title {
   font-size: 1.5rem;
 }
@@ -94,6 +98,10 @@ Link {
   background-color: #4D6381;
 }
 
+.main-challenge:hover {
+  transform: scale(1.03);  
+}
+
 
 /* Casual */
 .main-casual {
@@ -103,10 +111,18 @@ Link {
   background-color: #4D6381;
 }
 
+.main-casual:hover {
+  transform: scale(1.02);
+}
+
 /* Setting */
 .main-setting {
   justify-content: flex-end;
   align-items: flex-end;
   width: 1fr;
   background-color: #4D6381;
+}
+
+.main-setting:hover {
+  transform: scale(1.02);
 }
