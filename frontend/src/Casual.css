@@ -62,18 +62,21 @@
     border-radius: 50%;
     box-sizing: border-box;
     background-color: #62CE6F;
+    position: relative;
 }
 
 .casual-submitButton:hover {
     transform: scale(1.2);
 }
 
-.casual-submitLine {
-    width: 80%;
+.casual-submitLine {  
+    width: 0;
     height: 0;
-    border: 2px solid #519439;
-    border-radius: 2px;
-    box-sizing: border-box;
+    border-top: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid transparent;
+    border-left: 0.8rem solid #519439;
+    left: 8px;
+    position: absolute;
 }
 
 .casual-display {
@@ -102,4 +105,10 @@
     max-width: 100% !important;
     height: 100%;
     background-color: #343941;
+}
+
+.casual-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

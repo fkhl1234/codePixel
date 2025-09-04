@@ -117,7 +117,7 @@ export default function Casual() {
 
     // canvas 설정
     const canvasRef = useRef(null);
-    const pixelFixed = 600; // 캔버스 크기 고정
+    const pixelFixed = 700; // 캔버스 크기 고정
 
     // 배열 변경시 렌더링
     useEffect(() => {
@@ -130,7 +130,7 @@ export default function Casual() {
         ctx.fillStyle = array[y * arrayInfo.col + x]; // 내부 색상 지정
         ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize); // 픽셀 내부 그리기
         
-        ctx.strokeStyle = '#222222'; // 외부 색상 지정
+        ctx.strokeStyle = '#4D6381'; // 외부 색상 지정
         ctx.strokeRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize); // 픽셀 외부 그리기
         }
     }
@@ -330,7 +330,10 @@ export default function Casual() {
                     ref={canvasRef}
                     width={pixelFixed}
                     height={pixelFixed}
-                    style={{border: '1px solid black'}} /> 
+                    style={{
+                      border: '1px solid #4D6381',
+                      borderRadius: '1vh',
+                    }} /> 
             </div>
         </div>
     )
