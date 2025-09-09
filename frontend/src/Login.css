@@ -1,0 +1,82 @@
+.Login {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.Login-backRectangle{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 66vw;
+    height: 100vh;
+    box-shadow: 1vw 0 1vw #0b4494d6;
+    background-color: #006AFF;
+    position: relative;
+}
+
+.Login-title {
+    position: absolute;
+    left: 33vw;
+    transform: translateX(-50%);
+    font-family: 'Notable', 'Noto Sans KR', sans-serif;
+    font-size: 3vw;
+    color: #ffffff;
+}
+
+.Login-loginRectangle {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh;
+    padding: 2vh 2vw;
+    width: 20vw;
+    aspect-ratio: 1/1.5;
+    background-color: #ffffff;
+    border: 1px solid #BBBBBB;
+    border-radius: 2vh;
+    left: 66vw;
+    transform: translateX(-50%);
+    position: absolute;
+}
+
+.Login-loginRectangle p {
+    font-family: 'Lato', 'Noto Sans KR', sans-serif;
+    font-size: calc(16px + 1vw);
+    font-weight: 700;
+}
+
+.Login-inputField {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    gap: 1vh;
+}
+
+.Login-clickOption {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.Login-clickOption p {
+    font-size: calc(10px + 0.1vw);
+    text-decoration: underline;
+}
+
+.Login-forgetPassword {
+    color: #BBBBBB;
+}
+
+.Login-optionText {
+    color: #006AFF;
+}

@@ -1,6 +1,7 @@
 // EXPRESS 사용
 const PORT = 4000;
 const express = require('express');
+const session = require('express-session');
 const app = express();
 app.use(express.json());
 
@@ -28,6 +29,43 @@ const sequelize = new Sequelize(
     }
   }
 );
+
+// session 설정
+app.use(session({
+    secret: 'super-sceret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        secure: false,
+        maxAge: 1000 * 60 * 30
+    }
+}));
+
+// 세션 확인
+app.get('/api/session-check', (req, res) => {
+    if(req.session.userId) {
+        res.json({loggedIn: true, userId: req.session.userId });
+    } else {
+        res.json({loggedIn: false});
+    }
+});
+
+// 세션 삭제
+app.post("/api/logout", (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error("세션 삭제 에러:", err);
+      return res.status(500).json({ success: false });
+    }
+
+    // 브라우저 쿠키 삭제
+    res.clearCookie("connect.sid"); // express-session 기본 쿠키 이름
+
+    // 성공 응답
+    res.json({ success: true });
+  });
+});
 
 // ORM 모델
 const user_auth = sequelize.define('user_auth',{
@@ -116,6 +154,7 @@ app.post('/api/login', async (req, res) => {
         const match = await bcrypt.compare(userPw, user.pw);
 
         if(match) {
+            req.session.userId = userId; // 세션 ID 추가
             res.json({ authenticated: true, message: '로그인에 성공하였습니다.' });
             console.log('success');
         } else {

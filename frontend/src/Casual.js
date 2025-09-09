@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import Layout from './Layout';
-
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript"; // 문법 하이라이트
 import { Slider, Saturation, Hue, EditableInputRGBA, hsvaToRgbString } from '@uiw/react-color';

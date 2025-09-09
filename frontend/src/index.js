@@ -10,6 +10,7 @@ import Test from './Test';
 import Freemode from './Freemode';
 import Main from './Main';
 import Casual from './Casual';
+import Login from './Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,6 +18,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/main' element={<Main/>} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/casual" element={<Casual />} />
