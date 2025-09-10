@@ -5,10 +5,68 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+
+function RegisterDialog({registerOpen, setRegisterOpen}) {
+    const [userId, setUserId] = useState('');
+    const [userPw, setUserPw] = useState('');
+
+    const handleRegister = async () => {
+        const res = await fetch('/api/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                userId: userId,
+                userPw: userPw,
+            })
+        });
+
+        const data = await res.json();
+
+        if(data.authenticated) {
+            alert(`${data.userId}가 회원가입 되었습니다.`);
+            setRegisterOpen(false);
+        } else {
+            alert(data.message);
+        }
+    }
+
+    return (
+        <Dialog
+            open={registerOpen}
+            onClose={() => {
+                setRegisterOpen(false);
+            }} 
+            PaperProps={ {sx: {
+               display: 'flex',
+               flexDirection: 'column',
+            } }}>
+            <DialogTitle>Register</DialogTitle>
+            <DialogContent>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    handleRegister();
+                }}>
+                    <TextField variant='outlined' size='small' id='userID' label="Username" 
+                        onChange={(e) => setUserId(e.target.value)} />
+                    <TextField variant='outlined' size='small' id='userPw' label="Password" type='password' 
+                        onChange={(e) => setUserPw(e.target.value)} />
+                    <Button variant='contained' disableElevation type='submit'>Submit</Button>
+                </form>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
 
 export default function Login() {
     const { setIsLoggedIn, setUserId } = useAuth(); // 훅 호출
-
+    const [ registerOpen, setRegisterOpen ] = useState(false); // 회원가입 다이어로그
+    const navigate = useNavigate();
+        
     // 로그인 입력 폼
     const [loginForm, setLoginForm] = useState({
         userId: "",
@@ -38,9 +96,9 @@ export default function Login() {
                 console.log(data.message);
                 setIsLoggedIn(true);
                 setUserId(loginForm.userId);
-                window.location.href = '/main';       // 다음 페이지 이동
+                navigate('/'); // 메인 페이지로 다시 이동
             } else {
-                alert(data.message);                 // 실패 시 alert
+                alert(data.message); // 실패 시 alert
             }
         } catch(err) {
             console.log(err);
@@ -76,7 +134,8 @@ export default function Login() {
                             onClick={handleLogin}>
                                 Sign in</Button>
                         <div className='Login-clickOption'>
-                            <p className='Login-optionText'>Create an account?</p>
+                            <p className='Login-optionText' onClick={() => {setRegisterOpen(true)}}>Create an account?</p>
+                            <RegisterDialog registerOpen={registerOpen} setRegisterOpen={setRegisterOpen} />
                             <p className='Login-optionText'>Guest</p>
                         </div>
                     </div>

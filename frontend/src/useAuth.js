@@ -18,16 +18,17 @@ export function useAuth() {
             });
     }, [location.pathname]);
 
-    const logout = () => {
-        fetch('/api/logout', {
+    const logout = async () => {
+        const res = await fetch('/api/logout', {
             method: "POST",
             credentials: 'include',
         })
-            .then(res => res.json())
-            .then(() => {
-                setIsLoggedIn(false);
-                setUserId('');
-            });
+
+        const data = await res.json();
+        if(data.success) {
+            setIsLoggedIn(false);
+            setUserId('');
+        }
     };
 
     return {isLoggedIn, setIsLoggedIn, userId, setUserId, logout};

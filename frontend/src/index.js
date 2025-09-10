@@ -4,10 +4,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-import Home from './Home';
-import Menu from './Menu';
-import Test from './Test';
-import Freemode from './Freemode';
 import Main from './Main';
 import Casual from './Casual';
 import Login from './Login';
@@ -17,13 +13,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Main />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/main' element={<Main/>} />
-        <Route path="/menu" element={<Menu />} />
         <Route path="/casual" element={<Casual />} />
-        <Route path="/freemode" element={<Freemode />} />
-        <Route path='/dev' element={<Test />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import Button from "@mui/material/Button";
@@ -7,8 +7,7 @@ import { useAuth } from "./useAuth";
 import './Main.css';
 
 export default function Main() {
-    const { userId } = useAuth(); // 세션에서 불러오기
-    const [userName, setUserName] = useState('GUEST');
+    const { userId, logout } = useAuth(); // 세션에서 불러오기
 
     return (
     <div className="main">
@@ -19,9 +18,8 @@ export default function Main() {
         <div className="main-monitorContainer main-rectangle no-hover">
           <p className="main-text main-userName">{userId || "GUEST"}</p>
         </div>
-        { userId ? null :(
-            <Button variant="contained" component={Link} to='/login' disableElevation>Login</Button>
-          ) }
+        { userId ? ( <Button variant="contained" onClick={logout}>Logout</Button> ) 
+        :( <Button variant="contained" component={Link} to='/login' disableElevation>Login</Button> ) }
       </div>
 
       {/* Challenge */}
