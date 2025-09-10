@@ -14,7 +14,7 @@ dist/
 build/
 
 # OS별 시스템 파일
-.DS_Store
+**/.DS_Store
 Thumbs.db
 
 # IDE 설정 폴더 (VSCode 등)
