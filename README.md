@@ -18,7 +18,7 @@ if(x>4 && y>4) return (0, 255 ,0);
 - [ ] 성능 최적화 및 코드 리팩토링
 - [ ] 사용자 매뉴얼 및 예제 코드 추가
 
-## 실행
+## 설치
 ```
 git clone https://github.com/fkhl1234/codePixel.git
 cd codePixel
